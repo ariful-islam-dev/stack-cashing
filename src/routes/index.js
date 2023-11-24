@@ -6,6 +6,7 @@ const getSinglePhoto = require("../services/getSinglePhoto");
 const createPhoto = require("../services/createPhoto");
 const deletePhotos = require("../services/deletePhoto");
 const updatePhoto = require("../services/updatePhoto");
+const getOrSetCache = require("../utils/getOrSetCache");
 const router = Router();
 
 
@@ -22,7 +23,13 @@ router.get("/photos", async(req, res, next)=>{
         const {_start, _limit} = req.query;
         const start = parseInt(_start, 10) || 0;
         const limit = parseInt(_limit, 10) || photos.length;
-        const data = await simulateApiCall(()=>getPhotos(start, start+limit));
+
+        const key = `photos:_start=${start}&_limit=${limit}`
+
+        const data = await getOrSetCache(async()=>{
+           const data= await simulateApiCall(()=>getPhotos(start, start+limit));
+           return data;
+        }, key);
 
         res.json({
             message: "Ok👍", data
@@ -38,7 +45,9 @@ router.get("/photos/:id", async(req, res, next)=>{
     try{
         const {id} = req.params;
         const key = `photo:${id}`;
-        const photo = await simulateApiCall(()=>getSinglePhoto(id));
+        const photo = await getOrSetCache(async()=>{
+            return await simulateApiCall(()=>getSinglePhoto(id));
+        }, key)
         res.json({
             message: "ok", data: photo
         })

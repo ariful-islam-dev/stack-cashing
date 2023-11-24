@@ -48,3 +48,16 @@ By avoiding repetitive network requests or database queries, caching reduces the
 <p>Redis is in-memory database. which implies that the data must be ephemeral. But Redis does have two persistence (RDB or AOF) mechanisms built in, allowing it to store data on disk to recover from crashes or restarts.</p>
 
 <p>Redis stores data as a key-value pair</p>
+
+# How to run this application
+
+- [x] Clone Git Repository
+- [x] Open Terminal 
+- [x] Run `yarn install`
+- [x] Run `yarn dev`
+- [x] Flow dockerCommand.md File
+- [x] Install `npm install -g artillery`
+- [x] Then Run `artillery run artillery.config.yml` for load testing
+
+<!-- video - 130 -->
+<!-- mnite: 01:38:05 -->
