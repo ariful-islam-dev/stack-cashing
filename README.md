@@ -59,5 +59,3 @@ By avoiding repetitive network requests or database queries, caching reduces the
 - [x] Install `npm install -g artillery`
 - [x] Then Run `artillery run artillery.config.yml` for load testing
 
-<!-- video - 130 -->
-<!-- mnite: 01:38:05 -->

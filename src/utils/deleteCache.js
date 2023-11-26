@@ -17,7 +17,9 @@ const deleteCache = ({keys, pattern})=>{
         if(pattern){
             deletePatternKey(pattern)
         }
+       if(keys?.length){
         redisClient.del(...keys)
+       }
     }catch(err){
         throw new Error(err)
     }

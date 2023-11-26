@@ -7,6 +7,7 @@ const createPhoto = require("../services/createPhoto");
 const deletePhotos = require("../services/deletePhoto");
 const updatePhoto = require("../services/updatePhoto");
 const getOrSetCache = require("../utils/getOrSetCache");
+const deleteCache = require("../utils/deleteCache");
 const router = Router();
 
 
@@ -64,6 +65,9 @@ router.post("/photos", async(req, res, next)=>{
 
         const photo = await createPhoto({title, url, thumbnailUrl, albumId});
         res.json({message:"ok", data: photo}).status(201);
+        // Cache delete
+        const key = `photo:${photo.id}`
+        deleteCache({key:[key], pattern: "photos:_start="})
     }catch(error){
         console.log(error);
         next(error)
@@ -87,6 +91,9 @@ router.delete("/photos/:id", async(req, res, next)=>{
         const {id}= req.params;
         const deletePhoto = deletePhotos(id);
         res.json({message: "ok", data: deletePhoto});
+        // Cache delete
+        const key = `photo:${id}`;
+        deleteCache({keys: [key], pattern: "photos:_start=*"})
     } catch (error) {
         console.log(error);
         next(error)
